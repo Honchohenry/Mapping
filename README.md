@@ -20,3 +20,25 @@ contract Mapping{
         uintBoolMapping[_key1][_key2]= _value;
     }
 }
+# Mapping Withdrawals
+contract MappingWithdrawals{
+
+    mapping(address => uint) public balanceReceived;
+
+
+    function sendMoney() public payable{
+        balanceReceived[msg.sender] += msg.value;
+    }
+
+    function getBalance() public view returns(uint) {
+        return address(this).balance;
+    }
+
+    function withdrawallMoney(address payable _to) public {
+          uint balanceToSendOut = balanceReceived[msg.sender];
+          balanceReceived[msg.sender] = 0;
+         _to.transfer(balanceToSendOut); 
+    }
+}
+
+
